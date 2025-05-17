@@ -1,12 +1,19 @@
-import { Text, View } from "react-native";
+import { Text, View, Button } from "react-native";
 import { useEffect } from "react";
 import { app }  from "@/firebaseConfig";
+import { useAuth } from "@/context/authContext"
 
 export default function Index() {
 
   useEffect(() => {
     console.log('Firebase App:', app); // Check if the app object exists
   }, []);
+
+  const {logout} = useAuth();
+
+  const handleLogout=async()=>{
+    await logout()
+  }
 
   return (
     <View
@@ -17,6 +24,7 @@ export default function Index() {
       }}
     >
       <Text>Settings.</Text>
+      <Button title="Log out" onPress={handleLogout}/>
     </View>
   );
 }
