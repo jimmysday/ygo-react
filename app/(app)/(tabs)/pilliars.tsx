@@ -6,7 +6,7 @@ export default function Pillars() {
 
   return (
     <>
-      <PillarList />
+      {/* <PillarList /> */}
       <UserList />
     </>
 

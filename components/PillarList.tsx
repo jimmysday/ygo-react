@@ -1,23 +1,47 @@
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View, FlatList} from "react-native";
 import { useEffect,useState } from "react";
 import { app } from "@/firebaseConfig";
 
 import { useAuth } from '@/context/authContext'
 import { StatusBar } from 'expo-status-bar'
-
-// import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { getDocs, query, where } from 'firebase/firestore'
+import { userRef } from '@/firebaseConfig'
+import UserItems from '@/components/UserItems'
 
 type props = {
-    pillars: Array<string>,
+    users: Array<string>,
 }
 
-export const PillarList = () => {
-
+export const UserList = () => {
     const {user} = useAuth();
-    const [pillars,setpillars] = useState([])
-    useEffect(() => {
-      console.log('Firebase App:', app); // Check if the app object exists
-    }, []);
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(()=>{
+        console.log("currentuser: ", user?.userId)
+        if(user?.userId){
+            getUsers();
+        }
+    },[])
+
+    interface User {
+        id: string;
+        email: string;
+        firstName: string;
+        profileImageUel: string;
+        // Add other fields as needed
+      }
+
+    const getUsers = async()=>{
+        //fetch users
+        const q = query(userRef, where('id','!=',"user?.id"));
+        const querySnapshot = await getDocs(q);
+        let data:User[] = [];
+        querySnapshot.forEach(doc => {
+            data.push({...doc.data() as User});
+        })
+        console.log("fetch users: ", data);
+        setUsers(data);
+    }
 
     return (
         <View
@@ -28,18 +52,27 @@ export const PillarList = () => {
             }}
             >
             <StatusBar style="light" />
-            {/* <Text>pillar List</Text> */}
+            <Text>User List</Text>
       
             {
-                pillars.length > 0 ? (
-                    <Text>pillars</Text>
+                users.length > 0 ? (
+                    <View className = "flex-1">
+                        <FlatList
+                            data = {users}
+                            contentContainerStyle = {{flex:1, paddingVertical: 25}}
+                            keyExtractor={(item, index) => index.toString()}
+                            showsVerticalScrollIndicator = {false}
+                            renderItem={({item, index})=><UserItems item={item}/>}
+                            />
+
+                    </View>
                 ):(
-                    <Text>No pillars</Text>
+                    <View className="flex item-center">
+                        <ActivityIndicator size="large" />
+
+                    </View>
                 )
             }
-            
-
-
         </View>
     )
 }

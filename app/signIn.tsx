@@ -3,15 +3,15 @@ import { useAuth } from "@/context/authContext";
 
 export default function StartPage() {
 
-    const {login} = useAuth();
+    const { login, user } = useAuth();
 
     const handleLogin= async()=>{
-     
+        console.log("handleLogin user: ", user);
         const response = await login("jimmyzhang@test.com","123456");
         if(!response.success){
             console.log("sign in error:", response.msg);
         }
-    
+        console.log("handleLogin user success: ", user);
     }
 
     return (

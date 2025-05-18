@@ -25,6 +25,8 @@ export const db = getFirestore(app);
 
 export const userRef = collection(db, 'users');
 
+export const pillarRef = collection(db, 'pillars');
+
 // const firebaseConf = {app, db, auth};
 
 // export default firebaseConf;

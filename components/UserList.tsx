@@ -1,5 +1,5 @@
 import { ActivityIndicator, Text, View, FlatList} from "react-native";
-import { useEffect,useState } from "react";
+import { use, useEffect,useState } from "react";
 import { app } from "@/firebaseConfig";
 
 import { useAuth } from '@/context/authContext'
@@ -17,10 +17,11 @@ export const UserList = () => {//({users}: props) => {
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(()=>{
-        console.log("currentuser: ", user)
-        //if(user?.id){
+        console.log("UserList currentuser: ", user)
+        console.log("UserList currentuser ID : ", user?.id)
+        if(user?.id){
             getUsers();
-        //}
+        }
     },[])
 
     interface User {
@@ -33,7 +34,7 @@ export const UserList = () => {//({users}: props) => {
 
     const getUsers = async()=>{
         //fetch users
-        const q = query(userRef, where('id','!=',"user?.id"));
+        const q = query(userRef, where('id','!=',user?.id));
         const querySnapshot = await getDocs(q);
         let data:User[] = [];
         querySnapshot.forEach(doc => {

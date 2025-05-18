@@ -1,7 +1,7 @@
 import { ActivityIndicator, Text, TouchableOpacity, View,Image } from "react-native";
 
 export default function UserItems(item: any) {
-    console.log("User Item: ", item.item.email);
+    
     return (
         <View style={{ flexDirection: 'row'}} >
             <Image 

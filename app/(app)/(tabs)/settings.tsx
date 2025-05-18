@@ -9,10 +9,11 @@ export default function Index() {
     console.log('Firebase App:', app); // Check if the app object exists
   }, []);
 
-  const {logout} = useAuth();
+  const {logout, user} = useAuth();
 
   const handleLogout=async()=>{
     await logout()
+    console.log("logout success: ", user);
   }
 
   return (
