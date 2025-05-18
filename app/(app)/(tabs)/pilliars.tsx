@@ -4,8 +4,6 @@ import { UserList } from '@/components/UserList'
 
 export default function Pillars() {
 
-
-
   return (
     <>
       <PillarList />

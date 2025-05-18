@@ -14,7 +14,7 @@ type props = {
 
 export const UserList = () => {//({users}: props) => {
     const {user} = useAuth();
-    const [users, setUsers] = useState([1,2,3])
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(()=>{
         console.log("currentuser: ", user)
@@ -40,6 +40,7 @@ export const UserList = () => {//({users}: props) => {
             data.push({...doc.data() as User});
         })
         console.log("fetch users: ", data);
+        setUsers(data);
     }
 
     return (
@@ -61,13 +62,13 @@ export const UserList = () => {//({users}: props) => {
                             contentContainerStyle = {{flex:1, paddingVertical: 25}}
                             keyExtractor={(item, index) => index.toString()}
                             showsVerticalScrollIndicator = {false}
-                            renderItem={({item, index})=><UserItems />}
+                            renderItem={({item, index})=><UserItems item={item}/>}
                             />
 
                     </View>
                 ):(
                     <View className="flex item-center">
-                        {/* <ActivityIndicator size="large" /> */}
+                        <ActivityIndicator size="large" />
 
                     </View>
                 )
