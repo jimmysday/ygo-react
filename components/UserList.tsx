@@ -1,6 +1,5 @@
 import { ActivityIndicator, Text, View, FlatList} from "react-native";
-import { use, useEffect,useState } from "react";
-import { app } from "@/firebaseConfig";
+import { useEffect, useState } from "react";
 
 import { useAuth } from '@/context/authContext'
 import { StatusBar } from 'expo-status-bar'
@@ -8,11 +7,7 @@ import { getDocs, query, where } from 'firebase/firestore'
 import { userRef } from '@/firebaseConfig'
 import UserItems from '@/components/UserItems'
 
-type props = {
-    users: Array<string>,
-}
-
-export const UserList = () => {//({users}: props) => {
+export const UserList = () => {
     const {user} = useAuth();
     const [users, setUsers] = useState<User[]>([]);
 

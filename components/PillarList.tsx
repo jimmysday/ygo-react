@@ -1,46 +1,46 @@
 import { ActivityIndicator, Text, View, FlatList} from "react-native";
-import { useEffect,useState } from "react";
-import { app } from "@/firebaseConfig";
+import { useEffect, useState } from "react";
 
 import { useAuth } from '@/context/authContext'
 import { StatusBar } from 'expo-status-bar'
 import { getDocs, query, where } from 'firebase/firestore'
-import { userRef } from '@/firebaseConfig'
-import UserItems from '@/components/UserItems'
+import { pillarRef } from '@/firebaseConfig'
+import PillarItems from '@/components/PillarItems'
 
-type props = {
-    users: Array<string>,
-}
-
-export const UserList = () => {
+export const PillarList = () => {
     const {user} = useAuth();
-    const [users, setUsers] = useState<User[]>([]);
+    const [Pillars, setPillars] = useState<Pillar[]>([]);
 
-    useEffect(()=>{
-        console.log("currentuser: ", user?.userId)
-        if(user?.userId){
-            getUsers();
-        }
-    },[])
-
-    interface User {
-        id: string;
-        email: string;
-        firstName: string;
-        profileImageUel: string;
+    interface Pillar {
+        color: string;   
+        icon: string;       
+        id: string; 
+        subPillars: string[];
+        title: string;
+        type: string;
+        userId: string;
         // Add other fields as needed
       }
 
-    const getUsers = async()=>{
-        //fetch users
-        const q = query(userRef, where('id','!=',"user?.id"));
+    useEffect(()=>{
+        console.log("PillarList: ", Pillars)
+        if(user?.id){
+            getPillars();
+        }
+    },[])
+
+  
+
+    const getPillars = async()=>{
+        //fetch pillars
+        const q = query(pillarRef, where('userId','==',user?.id));
         const querySnapshot = await getDocs(q);
-        let data:User[] = [];
+        let data:Pillar[] = [];
         querySnapshot.forEach(doc => {
-            data.push({...doc.data() as User});
+            data.push({...doc.data() as Pillar});
         })
-        console.log("fetch users: ", data);
-        setUsers(data);
+        console.log("fetch Pillars: ", data);
+        setPillars(data);
     }
 
     return (
@@ -51,18 +51,17 @@ export const UserList = () => {
                 alignItems: "center",
             }}
             >
-            <StatusBar style="light" />
-            <Text>User List</Text>
-      
+            <StatusBar style="light" />      
+            <Text>Pillars List</Text>      
             {
-                users.length > 0 ? (
+                Pillars.length > 0 ? (
                     <View className = "flex-1">
                         <FlatList
-                            data = {users}
+                            data = {Pillars}
                             contentContainerStyle = {{flex:1, paddingVertical: 25}}
                             keyExtractor={(item, index) => index.toString()}
                             showsVerticalScrollIndicator = {false}
-                            renderItem={({item, index})=><UserItems item={item}/>}
+                            renderItem={({item, index})=><PillarItems item={item}/>}
                             />
 
                     </View>
