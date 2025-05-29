@@ -25,7 +25,7 @@
     },
     "extra": {
       "router": {
-        "basename": "jimmysday/ygo-react"
+        "basename": "/ygo-react"
       }
     },
     "plugins": [
