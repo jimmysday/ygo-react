@@ -12,7 +12,7 @@
     "export": "expo export --platform web",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://jimmysday.github.io/ygo-react/",
+  "homepage": "/ygo-react",
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "2.1.2",
